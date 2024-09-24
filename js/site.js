@@ -1,45 +1,63 @@
-const  startValue = document.getElementById("startValue");
-const endValue = document.getElementById("endValue");
-const btn = document.getElementById("btnSubmit");
-const result = document.getElementById("results");
+const cityForm = document.querySelector("form");
+const card = document.querySelector(".card");
+const details = document.querySelector(".details");
+const time = document.querySelector("img.time");
+const icon = document.querySelector(".icon img");
 
-btn.addEventListener("click", displayValues);
+const updateUI = (data) => {
+  const cityDets = data.cityDets;
+  const weather = data.weather;
 
 
-function getValues()
-{
-  let start = startValue.value;
-  let end = endValue.value;
+  // update details template
+  details.innerHTML = `
+    <h5 class="my-3">${cityDets.EnglishName}</h5>
+    <div class="my-3">${weather.WeatherText}</div>
+    <div class="display-4 my-4">
+        <span>${weather.Temperature.Imperial.Value}</span>
+        <span>&deg;F</span>
+    </div>
+  `;
 
-  // Convert to integers
-  start = parseInt(start);
-  end = parseInt(end);
+  // update the night/day & icon images
+  const iconSrc = `img/icons/${weather.WeatherIcon}.svg`;
+  icon.setAttribute("src", iconSrc);
 
-  let valuesRange = [];
-
-  for (let i = start; i <= end; i++)
-  {
-    valuesRange.push(i);
+  let timeSrc = null;
+  if (weather.IsDayTime) {
+    timeSrc = "img/day.svg";
+  } else {
+    timeSrc = "img/night.svg";
   }
 
-  return valuesRange;
-}
+  time.setAttribute("src", timeSrc);
 
-
-function displayValues()
-{
-  let numbers = getValues();
-
-  let className = "";
-
-  for (let i = 0; i < numbers.length; i++)
-  {
-    if (numbers[i] % 2 == 0)
-    {
-      className = "even";
-    } else {
-      className = "odd";
-    }
-    result.innerHTML += `<tr><td class="${className}">${numbers[i]}</td></tr>`;
+  // remove the d-none class if present
+  if (card.classList.contains("d-none")) {
+    card.classList.remove("d-none");
   }
-}
+};
+
+const updateCity = async (city) => {
+  const cityDets = await getCity(city);
+  const weather = await getWeather(cityDets.Key);
+
+  return {
+    cityDets: cityDets,
+    weather: weather,
+  };
+};
+
+cityForm.addEventListener("submit", (e) => {
+  // prevent default action
+  e.preventDefault();
+
+  // get city value
+  const city = cityForm.city.value.trim();
+  cityForm.reset();
+
+  // update the ui with new city
+  updateCity(city)
+    .then((data) => updateUI(data))
+    .catch((err) => console.log(err));
+});

@@ -6,10 +6,6 @@
   --white-color: #ffffff;
 }
 
-/* .odd {
-
-} */
-
 .even {
   font-weight: bold;
 }
@@ -77,3 +73,23 @@ pre[class*="language-"] {
 main > .container {
   padding: 60px 15px 0;
 }
+
+/* Weathe Now Styling */
+.icon {
+  position: relative;
+  top: -50px;
+  border-radius: 50%;
+  width: 100px;
+  margin-bottom: -50px;
+}
+
+.container-sm {
+  max-width: 500px;
+}
+
+ pre {
+      background-color: #f4f4f4;
+      padding: 10px;
+      border-radius: 5px;
+      overflow-x: auto;
+    }
