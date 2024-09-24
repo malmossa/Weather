@@ -1,2 +1,2 @@
-# JsSiteTemplate
-This a Starter JS Template for All JavaScript projects 
+# JavaScript Project
+This a weatherJavaScript projects that uses an API 
