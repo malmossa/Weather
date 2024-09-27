@@ -1,2 +1,2 @@
 # JavaScript Project
-This a weatherJavaScript projects that uses an API 
+Try it out: https://malmossa.github.io/Weather-now/
